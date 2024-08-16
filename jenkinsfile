@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/stephenesu/monitoring-logging.git' // Update with your actual repository
+            }
+        }
+
+        stage('Deploy Prometheus') {
+            steps {
+                script {
+                    sh '''
+                    docker run -d --name prometheus \
+                    -p 9090:9090 \
+                    -v /path/to/prometheus.yml:/etc/prometheus/prometheus.yml \
+                    prom/prometheus
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy Grafana') {
+            steps {
+                script {
+                    sh '''
+                    docker run -d --name grafana \
+                    -p 3000:3000 \
+                    -v /path/to/grafana.ini:/etc/grafana/grafana.ini \
+                    grafana/grafana
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy ELK Stack') {
+            steps {
+                script {
+                    sh '''
+                    docker-compose -f /path/to/docker-compose.yml up -d
+                    '''
+                }
+            }
+        }
+
+        stage('Configure Alerts') {
+            steps {
+                script {
+                    // Add your alerting rules and configurations here
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo 'Deployment succeeded!'
+        }
+        failure {
+            echo 'Deployment failed. Check the logs for details.'
+        }
+    }
+}
+
