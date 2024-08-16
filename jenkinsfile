@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/stephenesu/monitoring-logging.git' // Update with your actual repository
+                git 'https://github.com/stephenesu/monitoring-logging.git'
             }
         }
 
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker-compose -f /path/to/docker-compose.yml up -d
+                    docker-compose -f /path/to/elk/docker-compose.yml up -d
                     '''
                 }
             }
@@ -65,4 +65,3 @@ pipeline {
         }
     }
 }
-
