@@ -47,7 +47,7 @@ pipeline {
         stage('Configure Alerts') {
             steps {
                 script {
-                    // Add your alerting rules and configurations here
+                    // Placeholder for alert configuration steps
                 }
             }
         }
@@ -55,13 +55,19 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline finished.'
+            script {
+                echo 'Pipeline finished.'
+            }
         }
         success {
-            echo 'Deployment succeeded!'
+            script {
+                echo 'Deployment succeeded!'
+            }
         }
         failure {
-            echo 'Deployment failed. Check the logs for details.'
+            script {
+                echo 'Deployment failed. Check the logs for details.'
+            }
         }
     }
 }
